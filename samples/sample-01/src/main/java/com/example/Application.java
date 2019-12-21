@@ -16,10 +16,10 @@
 
 package com.example;
 
+import com.common.Foo2;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.kafka.ConcurrentKafkaListenerContainerFactoryConfigurer;
@@ -34,13 +34,9 @@ import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.util.backoff.FixedBackOff;
 
-import com.common.Foo2;
-
 /**
- *
  * @author Gary Russell
  * @since 2.2.1
- *
  */
 @SpringBootApplication
 public class Application {

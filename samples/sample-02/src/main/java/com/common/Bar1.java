@@ -19,7 +19,6 @@ package com.common;
 /**
  * @author Gary Russell
  * @since 2.2.1
- *
  */
 public class Bar1 {
 

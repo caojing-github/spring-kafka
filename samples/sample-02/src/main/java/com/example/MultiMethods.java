@@ -16,20 +16,18 @@
 
 package com.example;
 
+import com.common.Bar2;
+import com.common.Foo2;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import com.common.Bar2;
-import com.common.Foo2;
-
 /**
  * @author Gary Russell
  * @since 5.1
- *
  */
 @Component
-@KafkaListener(id = "multiGroup", topics = { "foos", "bars" })
+@KafkaListener(id = "multiGroup", topics = {"foos", "bars"})
 public class MultiMethods {
 
 	@KafkaHandler

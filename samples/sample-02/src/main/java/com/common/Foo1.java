@@ -19,7 +19,6 @@ package com.common;
 /**
  * @author Gary Russell
  * @since 5.1
- *
  */
 public class Foo1 {
 

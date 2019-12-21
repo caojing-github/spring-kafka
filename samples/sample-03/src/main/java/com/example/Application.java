@@ -16,13 +16,10 @@
 
 package com.example;
 
-import java.io.IOException;
-import java.util.List;
-
+import com.common.Foo2;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,13 +34,12 @@ import org.springframework.kafka.support.converter.BatchMessagingMessageConverte
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 
-import com.common.Foo2;
+import java.io.IOException;
+import java.util.List;
 
 /**
- *
  * @author Gary Russell
  * @since 2.2.1
- *
  */
 @SpringBootApplication
 public class Application {

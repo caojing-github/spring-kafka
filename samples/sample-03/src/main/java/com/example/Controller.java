@@ -34,10 +34,14 @@ public class Controller {
 	@Autowired
 	private KafkaTemplate<Object, Object> template;
 
+	/**
+	 * curl -X POST http://localhost:8080/send/foos/a,b,c,d,e
+	 */
 	@PostMapping(path = "/send/foos/{what}")
 	public void sendFoo(@PathVariable String what) {
 		this.template.executeInTransaction(kafkaTemplate -> {
-			StringUtils.commaDelimitedListToSet(what).stream()
+			StringUtils.commaDelimitedListToSet(what)
+					.stream()
 					.map(s -> new Foo1(s))
 					.forEach(foo -> kafkaTemplate.send("topic2", foo));
 			return null;

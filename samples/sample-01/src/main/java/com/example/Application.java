@@ -48,14 +48,14 @@ public class Application {
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerContainerFactory(
-			ConcurrentKafkaListenerContainerFactoryConfigurer configurer,
-			ConsumerFactory<Object, Object> kafkaConsumerFactory,
-			KafkaTemplate<Object, Object> template) {
+	public ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerContainerFactory(ConcurrentKafkaListenerContainerFactoryConfigurer configurer,
+																					   ConsumerFactory<Object, Object> kafkaConsumerFactory,
+																					   KafkaTemplate<Object, Object> template) {
+
 		ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		configurer.configure(factory, kafkaConsumerFactory);
-		factory.setErrorHandler(new SeekToCurrentErrorHandler(
-				new DeadLetterPublishingRecoverer(template), new FixedBackOff(0L, 2))); // dead-letter after 3 tries
+		// dead-letter after 3 tries
+		factory.setErrorHandler(new SeekToCurrentErrorHandler(new DeadLetterPublishingRecoverer(template), new FixedBackOff(0L, 2)));
 		return factory;
 	}
 
@@ -64,6 +64,9 @@ public class Application {
 		return new StringJsonMessageConverter();
 	}
 
+	/**
+	 * 消费者1
+	 */
 	@KafkaListener(id = "fooGroup", topics = "topic1")
 	public void listen(Foo2 foo) {
 		logger.info("Received: " + foo);
@@ -72,16 +75,25 @@ public class Application {
 		}
 	}
 
+	/**
+	 * 消费者2
+	 */
 	@KafkaListener(id = "dltGroup", topics = "topic1.DLT")
 	public void dltListen(String in) {
 		logger.info("Received from DLT: " + in);
 	}
 
+	/**
+	 * 新建主题topic1
+	 */
 	@Bean
 	public NewTopic topic() {
 		return new NewTopic("topic1", 1, (short) 1);
 	}
 
+	/**
+	 * 新建主题topic1.DLT
+	 */
 	@Bean
 	public NewTopic dlt() {
 		return new NewTopic("topic1.DLT", 1, (short) 1);

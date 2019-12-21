@@ -33,6 +33,10 @@ public class Controller {
 	@Autowired
 	private KafkaTemplate<Object, Object> template;
 
+	/**
+	 * 生产者
+	 * curl -X POST http://localhost:8080/send/foo/bar
+	 */
 	@PostMapping(path = "/send/foo/{what}")
 	public void sendFoo(@PathVariable String what) {
 		this.template.send("topic1", new Foo1(what));

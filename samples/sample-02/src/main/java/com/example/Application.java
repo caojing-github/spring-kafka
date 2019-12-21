@@ -45,27 +45,29 @@ public class Application {
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerContainerFactory(
-			ConcurrentKafkaListenerContainerFactoryConfigurer configurer,
-			ConsumerFactory<Object, Object> kafkaConsumerFactory,
-			KafkaTemplate<Object, Object> template) {
+	public ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerContainerFactory(ConcurrentKafkaListenerContainerFactoryConfigurer configurer,
+																					   ConsumerFactory<Object, Object> kafkaConsumerFactory,
+																					   KafkaTemplate<Object, Object> template) {
+
 		ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		configurer.configure(factory, kafkaConsumerFactory);
-		factory.setErrorHandler(new SeekToCurrentErrorHandler(
-				new DeadLetterPublishingRecoverer(template), new FixedBackOff(0L, 2)));
+		factory.setErrorHandler(new SeekToCurrentErrorHandler(new DeadLetterPublishingRecoverer(template), new FixedBackOff(0L, 2)));
 		return factory;
 	}
 
 	@Bean
 	public RecordMessageConverter converter() {
-		StringJsonMessageConverter converter = new StringJsonMessageConverter();
+
 		DefaultJackson2JavaTypeMapper typeMapper = new DefaultJackson2JavaTypeMapper();
 		typeMapper.setTypePrecedence(TypePrecedence.TYPE_ID);
 		typeMapper.addTrustedPackages("com.common");
+
 		Map<String, Class<?>> mappings = new HashMap<>();
 		mappings.put("foo", Foo2.class);
 		mappings.put("bar", Bar2.class);
 		typeMapper.setIdClassMapping(mappings);
+
+		StringJsonMessageConverter converter = new StringJsonMessageConverter();
 		converter.setTypeMapper(typeMapper);
 		return converter;
 	}

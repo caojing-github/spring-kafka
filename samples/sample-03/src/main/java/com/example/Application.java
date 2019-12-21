@@ -51,12 +51,10 @@ public class Application {
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerContainerFactory(
-			ConcurrentKafkaListenerContainerFactoryConfigurer configurer,
-			ConsumerFactory<Object, Object> kafkaConsumerFactory) {
+	public ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerContainerFactory(ConcurrentKafkaListenerContainerFactoryConfigurer configurer,
+																					   ConsumerFactory<Object, Object> kafkaConsumerFactory) {
 
-		ConcurrentKafkaListenerContainerFactory<Object, Object> factory =
-				new ConcurrentKafkaListenerContainerFactory<>();
+		ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		configurer.configure(factory, kafkaConsumerFactory);
 		factory.setBatchListener(true);
 		factory.setMessageConverter(batchConverter());
@@ -80,7 +78,7 @@ public class Application {
 	public void listen1(List<Foo2> foos) throws IOException {
 		logger.info("Received: " + foos);
 		foos.forEach(f -> kafkaTemplate.send("topic3", f.getFoo().toUpperCase()));
-		logger.info("Messages sent, hit Enter to commit tx");
+		logger.info("消息已发送，回车提交事务");
 		System.in.read();
 	}
 

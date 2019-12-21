@@ -34,16 +34,25 @@ public class Controller {
 	@Autowired
 	private KafkaTemplate<Object, Object> template;
 
+	/**
+	 * curl -X POST http://localhost:8080/send/foo/bar
+	 */
 	@PostMapping(path = "/send/foo/{what}")
 	public void sendFoo(@PathVariable String what) {
 		this.template.send("foos", new Foo1(what));
 	}
 
+	/**
+	 * curl -X POST http://localhost:8080/send/bar/baz
+	 */
 	@PostMapping(path = "/send/bar/{what}")
 	public void sendBar(@PathVariable String what) {
 		this.template.send("bars", new Bar1(what));
 	}
 
+	/**
+	 * curl -X POST http://localhost:8080/send/unknown/xxx
+	 */
 	@PostMapping(path = "/send/unknown/{what}")
 	public void sendUnknown(@PathVariable String what) {
 		this.template.send("bars", what);
